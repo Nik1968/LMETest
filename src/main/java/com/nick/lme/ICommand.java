@@ -1,6 +1,4 @@
-package com.nick.lme.command;
-
-import com.nick.lme.Robot;
+package com.nick.lme;
 
 public interface ICommand {
     public void changeRobotState(Robot robot);

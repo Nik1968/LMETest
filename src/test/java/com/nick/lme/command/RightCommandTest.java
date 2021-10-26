@@ -18,11 +18,22 @@ public class RightCommandTest {
     }
 
     @Test
-    public void testLeftCommandOrientation(){
+    public void testRightCommandOrientation(){
         RightCommand command = new RightCommand();
         assertEquals(Orientation.E,command.nextOrientation(Orientation.N));
         assertEquals(Orientation.S,command.nextOrientation(Orientation.E));
         assertEquals(Orientation.W,command.nextOrientation(Orientation.S));
         assertEquals(Orientation.N,command.nextOrientation(Orientation.W));
+    }
+
+    @Test
+    public void testIgnoreCommandWhenOffTheGrid(){
+        RightCommand command= new RightCommand();
+        Robot robot= new Robot(2,2,Orientation.E);
+        robot.setLost(true);
+        command.changeRobotState(robot);
+        assertEquals(2,robot.getPosition().getX());
+        assertEquals(2,robot.getPosition().getY());
+        assertEquals(Orientation.E,robot.getOrientation());
     }
 }

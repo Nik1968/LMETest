@@ -1,6 +1,8 @@
 package com.nick.lme;
 
-public class Position {
+import java.util.Objects;
+
+public final class Position {
     private final int x;
     private final int y;
 
@@ -13,4 +15,18 @@ public class Position {
 
     public int getY() {return y;}
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Position))
+            return false;
+        Position other = (Position)o;
+        return this.x==other.x && this.y==other.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
   }

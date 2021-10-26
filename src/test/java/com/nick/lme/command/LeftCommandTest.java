@@ -27,4 +27,15 @@ public class LeftCommandTest {
         assertEquals(Orientation.N,command.nextOrientation(Orientation.E));
     }
 
+    @Test
+    public void testIgnoreCommandWhenOffTheGrid(){
+        LeftCommand command= new LeftCommand();
+        Robot robot= new Robot(2,2,Orientation.E);
+        robot.setLost(true);
+        command.changeRobotState(robot);
+        assertEquals(2,robot.getPosition().getX());
+        assertEquals(2,robot.getPosition().getY());
+        assertEquals(Orientation.E,robot.getOrientation());
+    }
+
 }

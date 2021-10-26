@@ -1,11 +1,15 @@
 package com.nick.lme.command;
 
+import com.nick.lme.ICommand;
 import com.nick.lme.Orientation;
 import com.nick.lme.Robot;
 
-public class LeftCommand implements ICommand{
+public class LeftCommand implements ICommand {
     @Override
     public void changeRobotState(Robot robot) {
+       if(robot.isLost()) {
+          return;
+       }
        robot.setOrientation(nextOrientation(robot.getOrientation()));
     }
 

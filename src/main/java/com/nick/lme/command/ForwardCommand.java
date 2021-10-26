@@ -1,13 +1,33 @@
 package com.nick.lme.command;
 
-import com.nick.lme.Orientation;
-import com.nick.lme.Position;
-import com.nick.lme.Robot;
+import com.nick.lme.*;
 
-public class ForwardCommand implements ICommand{
+public class ForwardCommand implements ICommand {
+
+    private IPositionConstraintsProvider constraints;
+
+    public ForwardCommand(IPositionConstraintsProvider constraints){
+        this.constraints=constraints;
+    }
+
     @Override
     public void changeRobotState(Robot robot) {
-       robot.setPosition(nextPosition(robot.getPosition(), robot.getOrientation()));
+        if(robot.isLost()) {
+          return;
+        }
+       Position currentPosition= robot.getPosition();
+       Position newPosition=nextPosition(currentPosition,robot.getOrientation());
+       if(constraints.isScented(currentPosition) && constraints.isOutOfGrid(newPosition)){
+         // checking if next position is out of the grid
+         return;
+       }
+
+       if(constraints.isOutOfGrid(newPosition)){
+          robot.setLost(true);
+          constraints.addScented(currentPosition);
+       }else {
+           robot.setPosition(newPosition);
+       }
     }
 
     public Position nextPosition(Position position, Orientation orientation){
